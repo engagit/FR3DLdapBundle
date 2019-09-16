@@ -23,15 +23,8 @@ class FR3DLdapExtension extends Extension
         $container->setAlias('fr3d_ldap.ldap_manager', $config['service']['ldap_manager']);
         $container->setAlias('fr3d_ldap.ldap_driver', $config['service']['ldap_driver']);
 
-        if (!isset($config['driver']['baseDn'])) {
-            $config['driver']['baseDn'] = $config['user']['baseDn'];
-        }
-        if (!isset($config['driver']['accountFilterFormat'])) {
-            $config['driver']['accountFilterFormat'] = $config['user']['filter'];
-        }
-
-        $container->setParameter('fr3d_ldap.ldap_driver.parameters', $config['driver']);
-        $container->setParameter('fr3d_ldap.ldap_manager.parameters', $config['user']);
+        // we need this empty array for the intiial construct of the ldap_driver in ldap_driver.xml
+        $container->setParameter('fr3d_ldap.ldap_driver.init', []);
     }
 
     public function getNamespace()

@@ -16,63 +16,12 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
+        // we are using the existing configuration for the vayu ldap servers in config.yml with key:app
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('fr3d_ldap');
-
-        $rootNode
-            ->children()
-                ->arrayNode('driver')
-                    ->children()
-                        ->scalarNode('host')->isRequired()->cannotBeEmpty()->end()
-                        ->scalarNode('port')->defaultValue(389)->end()
-                        ->scalarNode('useStartTls')->defaultFalse()->end()
-                        ->scalarNode('useSsl')->defaultFalse()->end()
-                        ->scalarNode('username')->end()
-                        ->scalarNode('password')->end()
-                        ->scalarNode('bindRequiresDn')->defaultFalse()->end()
-                        ->scalarNode('baseDn')->end()
-                        ->scalarNode('accountCanonicalForm')->end()
-                        ->scalarNode('accountDomainName')->end()
-                        ->scalarNode('accountDomainNameShort')->end()
-                        ->scalarNode('accountFilterFormat')->end()
-                        ->scalarNode('allowEmptyPassword')->end()
-                        ->scalarNode('optReferrals')->end()
-                        ->scalarNode('tryUsernameSplit')->end()
-                        ->scalarNode('networkTimeout')->end()
-                    ->end()
-                ->end()
-                ->arrayNode('user')
-                    ->children()
-                        ->scalarNode('baseDn')->isRequired()->cannotBeEmpty()->end()
-                        ->scalarNode('filter')->defaultValue('')->end()
-                        ->scalarNode('usernameAttribute')->defaultValue('uid')->end()
-                        ->arrayNode('attributes')
-                            ->defaultValue([
-                                [
-                                    'ldap_attr' => 'uid',
-                                    'user_method' => 'setUsername',
-                                ],
-                            ])
-                            ->prototype('array')
-                                ->children()
-                                    ->scalarNode('ldap_attr')->isRequired()->cannotBeEmpty()->end()
-                                    ->scalarNode('user_method')->isRequired()->cannotBeEmpty()->end()
-                                ->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end()
-            ->validate()
-                ->ifTrue(static function ($v) {
-                    return $v['driver']['useSsl'] && $v['driver']['useStartTls'];
-                })
-                ->thenInvalid('The useSsl and useStartTls options are mutually exclusive.')
-            ->end();
-
+        $rootNode = $treeBuilder->root('app');
         $this->addServiceSection($rootNode);
-
         return $treeBuilder;
+        
     }
 
     private function addServiceSection(ArrayNodeDefinition $node)

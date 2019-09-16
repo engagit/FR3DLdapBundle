@@ -12,6 +12,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 interface LdapDriverInterface
 {
+
+    /**
+     * Initialize the driver (new options).
+     *
+     * @param array $options new options to connect
+     */
+    public function init(array $options);
+    
     /**
      * Bind to LDAP directory.
      *

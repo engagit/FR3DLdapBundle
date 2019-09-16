@@ -38,6 +38,14 @@ class ZendLdapDriver implements LdapDriverInterface
         $this->logger = $logger;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function init(array $options)
+    {
+        $this->driver->disconnect()->setOptions($options);
+    }
+
     public function search(string $baseDn, string $filter, array $attributes = [])
     {
         $this->logDebug('{action}({base_dn}, {filter}, {attributes})', [

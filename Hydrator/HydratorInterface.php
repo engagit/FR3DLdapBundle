@@ -16,4 +16,11 @@ interface HydratorInterface
      *                         see {@link http://www.php.net/function.ldap-get-entries.php} for array format examples.
      */
     public function hydrate(array $ldapEntry): UserInterface;
+
+     /**
+     * Init the attribute map with Ldap server configuration.
+     *
+     * @param array $attributeMap
+     */
+    public function setAttributeMap(array $attributeMap);
 }
